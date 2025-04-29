@@ -1,13 +1,14 @@
-//import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-//import { Welcome } from '../components/Welcome/Welcome';
 import {Banner} from "../components/Banner/Banner"
 import {MainContent} from "../components/MainContent/MainContent"
+import {SearchCarForm} from "../components/SearchCarForm/SearchCarForm";
 
 export function HomePage() {
   return (
     <>
         <Banner />
-        <MainContent />
+        <MainContent>
+            <SearchCarForm />
+        </MainContent>
     </>
   );
 }

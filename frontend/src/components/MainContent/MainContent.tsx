@@ -1,7 +1,11 @@
 import {Container} from "@mantine/core"
-import {SearchCarForm} from "../SearchCarForm/SearchCarForm";
+import {ReactNode} from "react";
 
-export const MainContent = () => {
+interface MainContentProps {
+    children: ReactNode
+}
+
+export const MainContent = ({children}: MainContentProps) => {
     return (
         <Container
             size='lg'
@@ -14,7 +18,7 @@ export const MainContent = () => {
                 }
             }}
         >
-            <SearchCarForm/>
+            {children}
         </Container>
     )
 }
