@@ -1,6 +1,9 @@
-import {Paper} from "@mantine/core"
+import {Paper, Title} from "@mantine/core"
+import {useApi} from "../../hooks/useApi";
 
 export const CarSearchResults = () => {
+    const {data} = useApi();
+
     return (
         <>
             <Paper
@@ -8,7 +11,9 @@ export const CarSearchResults = () => {
                 mt='xl'
                 p='md'
             >
-                aok
+                {data.map((car, index) => (
+                    <Title key={index}>{car.model}</Title>
+                ))}
             </Paper>
         </>
     )
