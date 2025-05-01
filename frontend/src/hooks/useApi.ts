@@ -12,7 +12,7 @@ interface CarAd {
     transmission: string
 }
 interface ApiResponse {
-    data: Car[];
+    data: CarAd[];
 }
 
 export const useApi = (): ApiResponse => {
