@@ -2,8 +2,13 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 
 interface Car {
-    brand: string,
+    title: string
+    price: number
+    brand: string
     model: string
+    productionYear: number
+    fuelType: string
+    bodyType: string
 }
 interface ApiResponse {
     data: Car[];

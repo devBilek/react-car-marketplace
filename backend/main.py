@@ -17,12 +17,17 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["mydatabase"]
 collection = db["cars"]
 
-class Car(BaseModel):
+class CarAd(BaseModel):
+    title: str
+    price: int
     brand: str
     model: str
+    productionYear: int
+    fuelType: str
+    bodyType: str
 
 @app.post("/cars")
-def add_car(car: Car):
+def add_car(car: CarAd):
     inserted_item = collection.insert_one(car.model_dump())
     return {"id": str(inserted_item.inserted_id)}
 
