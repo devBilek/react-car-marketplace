@@ -1,4 +1,8 @@
-import {Paper, Grid, Title, Text} from "@mantine/core"
+import {Paper, Grid, Title, Text, Center} from "@mantine/core"
+import { SiAlwaysdata } from "react-icons/si";
+import { FaCalendarAlt } from "react-icons/fa";
+import { MdLocalGasStation } from "react-icons/md";
+import { BsArrowDownUp } from "react-icons/bs";
 
 interface Car {
     title: string,
@@ -8,7 +12,8 @@ interface Car {
     productionYear: number,
     fuelType: string,
     bodyType: string,
-    carData?: any
+    mileage: number,
+    transmission: string
 }
 
 export const CarAdCard = ({ carData }: { carData: Car }) => {
@@ -22,28 +27,31 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
             withBorder='sm'
         >
             <Grid mb='md'>
-                <Grid.Col span={3}>
+                <Grid.Col span={4}>
                     aok
                 </Grid.Col>
-                <Grid.Col span={7}>
-                    <Title order={3} mb='md'>{carData.title}</Title>
-                    <Grid mr='xl'>
+                <Grid.Col span={6}>
+                    <Title order={3} size='lg'>{carData.title}</Title>
+                    <Text mb='md'>{carData.brand} {carData.model}</Text>
+                    <Grid mr='40%'>
                         <Grid.Col span={6}>
-                            <Text>{carData.brand} {carData.model}</Text>
+                            <Text><SiAlwaysdata /> {carData.mileage} km</Text>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Text>{carData.productionYear}</Text>
+                            <Text><FaCalendarAlt /> {carData.productionYear}</Text>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Text>{carData.fuelType}</Text>
+                            <Text><MdLocalGasStation /> {carData.fuelType}</Text>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Text>{carData.bodyType}</Text>
+                            <Text><BsArrowDownUp /> {carData.transmission}</Text>
                         </Grid.Col>
                     </Grid>
                 </Grid.Col>
                 <Grid.Col span={2}>
-                    <Text c='blue' size='xl'>{carData.price} $</Text>
+                    <Center>
+                        <Text c='blue' size='xl'>{carData.price} $</Text>
+                    </Center>
                 </Grid.Col>
             </Grid>
         </Paper>

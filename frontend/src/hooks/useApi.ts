@@ -9,6 +9,8 @@ interface Car {
     productionYear: number
     fuelType: string
     bodyType: string
+    mileage: number
+    transmission: string
 }
 interface ApiResponse {
     data: Car[];

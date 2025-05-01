@@ -25,6 +25,8 @@ class CarAd(BaseModel):
     productionYear: int
     fuelType: str
     bodyType: str
+    mileage: int
+    transmission: str
 
 @app.post("/cars")
 def add_car(car: CarAd):
