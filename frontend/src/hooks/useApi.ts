@@ -1,14 +1,13 @@
 import {useState, useEffect} from "react";
 import axios from "axios";
 
-interface Car {
+interface CarAd {
     title: string
     price: number
     brand: string
     model: string
     productionYear: number
     fuelType: string
-    bodyType: string
     mileage: number
     transmission: string
 }
@@ -17,10 +16,10 @@ interface ApiResponse {
 }
 
 export const useApi = (): ApiResponse => {
-    const [data, setData] = useState<Car[]>([]);
+    const [data, setData] = useState<CarAd[]>([]);
 
     useEffect(() => {
-        axios.get<Car[]>("http://127.0.0.1:8000/cars")
+        axios.get<CarAd[]>("http://127.0.0.1:8000/api/caradcards")
         .then((response) => {
             setData(response.data);
         })
