@@ -1,3 +1,4 @@
+from bson import ObjectId
 from fastapi import APIRouter
 from database import collection
 from models.carAd import CarAd
@@ -15,4 +16,25 @@ def get_cars():
 
 @car_router.get("/caradcards")
 def get_car_ad_cards():
-    return list(collection.find({}, {"_id": 0, "bodyType": 0}))
+    projection = {
+        "_id": 1,
+        "photos": 1,
+        "title": 1,
+        "price": 1,
+        "brand": 1,
+        "model": 1,
+        "production_year": 1,
+        "fuel_type": 1,
+        "mileage": 1,
+        "transmission": 1
+    }
+    car_ads = list(collection.find({}, projection))
+
+    for car_ad in car_ads:
+        car_ad["_id"] = str(car_ad["_id"])
+
+    return car_ads
+
+@car_router.get("/carAd/{car_ad_id}")
+def get_car_ad_by_id(car_ad_id: int):
+    return collection.find({"_id": car_ad_id}, {"_id": 0})

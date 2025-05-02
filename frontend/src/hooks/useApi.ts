@@ -2,14 +2,19 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 
 interface CarAd {
-    title: string
-    price: number
-    brand: string
-    model: string
-    productionYear: number
-    fuelType: string
-    mileage: number
-    transmission: string
+    _id: string;
+
+    photos: Array<string>;
+
+    title: string;
+    price: number;
+    brand: string;
+    model: string;
+    production_year: number;
+    mileage: number;
+
+    fuel_type: 'petrol' | 'diesel' | 'lpg' | 'electric' | 'hybrid';
+    transmission: 'manual' | 'automatic' | 'semi-automatic';
 }
 interface ApiResponse {
     data: CarAd[];
@@ -26,6 +31,7 @@ export const useApi = (): ApiResponse => {
         .catch((error) => {
             console.log(error);
         })
+
     }, [])
 
     return {data};

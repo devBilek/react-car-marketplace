@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './pages/Home.page';
 import {SearchResultsPage} from "./pages/SearchResults.page";
+import {CarAdPage} from "./pages/CarAd.page";
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: '/search-results',
     element: <SearchResultsPage/>
+  },
+  {
+    path: '/car-ad',
+    element: <CarAdPage/>
   }
 ]);
 
