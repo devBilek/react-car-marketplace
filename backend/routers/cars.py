@@ -36,5 +36,5 @@ def get_car_ad_cards():
     return car_ads
 
 @car_router.get("/carAd/{car_ad_id}")
-def get_car_ad_by_id(car_ad_id: int):
-    return collection.find({"_id": car_ad_id}, {"_id": 0})
+def get_car_ad_by_id(car_ad_id: str):
+    return collection.find_one({"_id": ObjectId(car_ad_id)}, {"_id": 0})

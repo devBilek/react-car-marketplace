@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <SearchResultsPage/>
   },
   {
-    path: '/car-ad',
+    path: '/car-ad/:id',
     element: <CarAdPage/>
   }
 ]);

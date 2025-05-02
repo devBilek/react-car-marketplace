@@ -1,13 +1,13 @@
 import {Banner} from "../components/Banner/Banner"
 import {MainContent} from "../components/MainContent/MainContent"
-import {SearchCarForm} from "../components/SearchCarForm/SearchCarForm";
+import {CarAd} from "../components/CarAd/CarAd";
 
 export function CarAdPage() {
     return (
         <>
             <Banner />
-            <MainContent>
-                <SearchCarForm />
+            <MainContent size="xl">
+                <CarAd />
             </MainContent>
         </>
     );

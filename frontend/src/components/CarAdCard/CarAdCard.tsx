@@ -25,7 +25,7 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/car-ad?id=${carData._id}`)
+        navigate(`/car-ad/${carData._id}`)
     }
 
     return (
@@ -35,7 +35,8 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
             mb='md'
             mih={180}
             p='sm'
-            withBorder='sm'
+            withBorder
+            style={{cursor: 'pointer'}}
         >
             <Grid my='sm'>
                 <Grid.Col span={3}>

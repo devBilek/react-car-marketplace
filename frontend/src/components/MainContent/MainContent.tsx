@@ -3,12 +3,13 @@ import {ReactNode} from "react";
 
 interface MainContentProps {
     children: ReactNode
+    size?: string
 }
 
-export const MainContent = ({children}: MainContentProps) => {
+export const MainContent = ({children, size = "lg"}: MainContentProps) => {
     return (
         <Container
-            size='lg'
+            size={size}
             mih={1200}
             mt='md'
             p='md'

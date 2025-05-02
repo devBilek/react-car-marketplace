@@ -1,38 +1,20 @@
 import {useState, useEffect} from "react";
 import axios from "axios";
 
-interface CarAd {
-    _id: string;
-
-    photos: Array<string>;
-
-    title: string;
-    price: number;
-    brand: string;
-    model: string;
-    production_year: number;
-    mileage: number;
-
-    fuel_type: 'petrol' | 'diesel' | 'lpg' | 'electric' | 'hybrid';
-    transmission: 'manual' | 'automatic' | 'semi-automatic';
-}
-interface ApiResponse {
-    data: CarAd[];
-}
-
-export const useApi = (): ApiResponse => {
-    const [data, setData] = useState<CarAd[]>([]);
+export const useApi = <T,>(endpoint: string, params?: Record<string, any>) => {
+    const [data, setData] = useState<T | null>(null);
 
     useEffect(() => {
-        axios.get<CarAd[]>("http://127.0.0.1:8000/api/caradcards")
+        axios.get(endpoint, {params})
         .then((response) => {
             setData(response.data);
+            console.log("Odpowiedź z API:", data)
         })
         .catch((error) => {
             console.log(error);
         })
 
-    }, [])
+    }, [endpoint, params]);
 
     return {data};
 }
