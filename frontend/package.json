@@ -20,10 +20,12 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "^7.17.5",
+    "@mantine/carousel": "^7.17.7",
+    "@mantine/core": "^7.17.7",
     "@mantine/form": "^7.17.5",
-    "@mantine/hooks": "7.17.5",
+    "@mantine/hooks": "7.17.7",
     "axios": "^1.9.0",
+    "embla-carousel-react": "^8.6.0",
     "npm": "^11.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
