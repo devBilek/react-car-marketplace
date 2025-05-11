@@ -1,20 +1,17 @@
-import {Grid, Text, Image, Title, Space, Paper, Divider, Box, Group, Flex, Spoiler, useMantineColorScheme} from "@mantine/core"
+import {Divider, Grid, Text, Title} from "@mantine/core"
 import {useParams} from "react-router-dom";
 import {useApi} from "../../hooks/useApi";
 import {CarAdType} from "./types";
 import '@mantine/carousel/styles.css';
-import {Carousel} from "@mantine/carousel";
-import { SiAlwaysdata } from "react-icons/si";
-import { FaCalendarAlt } from "react-icons/fa";
-import { MdLocalGasStation } from "react-icons/md";
-import { BsArrowDownUp } from "react-icons/bs";
-import { FaCarSide } from "react-icons/fa";
-import { MdSpeed } from "react-icons/md";
+import {CarGallery} from "../carGallery/CarGallery";
+import {CarSidebar} from "../CarSidebar/CarSidebar";
+import {KeySpecs} from "../KeySpecs/KeySpecs";
+import {DescriptionSection} from "../DescriptionSection/DescriptionSection";
+import {DetailsTable} from "../DetailsTable/DetailsTable";
 
 export const CarAd = () => {
     const params = useParams();
     const {data} = useApi<CarAdType>(`http://127.0.0.1:8000/api/carAd/${params.id}`);
-    const {colorScheme} = useMantineColorScheme();
 
     if (!data) {
         return <Text>not found</Text>
@@ -24,76 +21,73 @@ export const CarAd = () => {
        <>
         <Grid mt='xl' mx="lg">
             <Grid.Col span={9}>
-                <Paper bg={colorScheme === 'dark' ? 'dark.5' : 'dark.0'} radius='md'>
-                    <Carousel height='100%' withIndicators>
-                        <Carousel.Slide><Image
-                            src={data.photos?.[0]}
-                            alt="carPhoto"
-                            w="80%"
-                            mx="auto"
-                        /></Carousel.Slide>
-                        <Carousel.Slide>2</Carousel.Slide>
-                        <Carousel.Slide>3</Carousel.Slide>
-                    </Carousel>
-                </Paper>
-                <Divider h='md' mt='lg'/>
-                <Title order={3}>Most important information</Title>
-                <Group justify='space-between'>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <SiAlwaysdata style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Mileage</Text>
-                            <Text size='lg'>{data.mileage} KM</Text>
-                        </Flex>
-                    </Box>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <MdLocalGasStation style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Fuel type</Text>
-                            <Text size='lg'>{data.fuel_type}</Text>
-                        </Flex>
-                    </Box>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <BsArrowDownUp style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Transmission</Text>
-                            <Text size='lg'>{data.transmission}</Text>
-                        </Flex>
-                    </Box>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <FaCarSide style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Body type</Text>
-                            <Text size='lg'>{data.body_type}</Text>
-                        </Flex>
-                    </Box>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <MdSpeed style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Engine power</Text>
-                            <Text size='lg'>{data.engine_power} HP</Text>
-                        </Flex>
-                    </Box>
-                    <Box h={120} w={140} p='md'>
-                        <Flex justify='center' align='center' direction='column' w='100%'>
-                            <FaCalendarAlt style={{fontSize: '40px'}}/>
-                            <Text size='sm' mt='sm'>Production year</Text>
-                            <Text size='lg'>{data.production_year}</Text>
-                        </Flex>
-                    </Box>
-                </Group>
-                <Divider h='md' mt='lg'/>
-                <Title order={3} mb='xs'>Description</Title>
-                <Spoiler maxHeight={300} showLabel='Show more' hideLabel='Hide'>
-                    <Text style={{ whiteSpace: 'pre-line' }}>{data.description}</Text>
-                </Spoiler>
+                <CarGallery photos={data.photos || []} />
+                <KeySpecs mileage={data.mileage} fuel_type={data.fuel_type} transmission={data.transmission} body_type={data.body_type} engine_power={data.engine_power || 0} production_year={data.production_year} />
+                <DescriptionSection description={data.description || ""} />
+                
+                <Divider h='md' mt={50}/>
+                <Title order={3} mb='xs'>Details</Title>
 
+                <DetailsTable
+                    title="Basic Information"
+                    data={[
+                        { label: "Title", value: data.title },
+                        { label: "Brand", value: data.brand },
+                        { label: "Model", value: data.model },
+                        { label: "Generation", value: data.generation },
+                        { label: "Price", value: `${data.price} PLN` },
+                        { label: "Production Year", value: data.production_year },
+                        { label: "Mileage", value: `${data.mileage} km` },
+                        { label: "Condition", value: data.condition },
+                    ]}
+                />
+
+                <DetailsTable
+                    title="Technical Details"
+                    data={[
+                        { label: "Fuel Type", value: data.fuel_type },
+                        { label: "Engine Capacity", value: data.engine_capacity && `${data.engine_capacity} cm³` },
+                        { label: "Engine Power", value: data.engine_power && `${data.engine_power} HP` },
+                        { label: "Body Type", value: data.body_type },
+                        { label: "Transmission", value: data.transmission },
+                        { label: "Drive Type", value: data.drive_type },
+                        { label: "Emission Standard", value: data.emission_standard },
+                    ]}
+                />
+
+                {data.features && (
+                    <DetailsTable
+                        title="Equipment"
+                        data={data.features.map(feature => ({
+                            label: '',
+                            value: `• ${feature}`,
+                            span: 2
+                        }))}
+                    />
+                )}
+
+                <DetailsTable
+                    title="Seller Information"
+                    data={[
+                        { label: "Seller Type", value: data.is_private_seller ? "Private" : "Dealer" },
+                        { label: "Phone Number", value: data.phone_number },
+                        { label: "City", value: data.city },
+                    ]}
+                />
+
+                <DetailsTable
+                    title="Additional Information"
+                    data={[
+                        { label: "First Registration", value: data.first_registration_date },
+                        { label: "Warranty Until", value: data.warranty_until },
+                        { label: "Service History", value: data.service_history ? "Yes" : "No" },
+                        { label: "Negotiable", value: data.is_negotiable ? "Yes" : "No" },
+                        { label: "Leasing Possible", value: data.is_leasing_possible ? "Yes" : "No" },
+                    ]}
+                />
             </Grid.Col>
             <Grid.Col span={3} px='md'>
-                <Title order={2}>{data.title}</Title>
-                <Text>{data.brand} {data.model} {data.generation} - {data.production_year}</Text>
-                <Space h='sm'/>
-                <Title order={3} size='h1' c='blue'>{data.price} $</Title>
+                <CarSidebar title={data.title} brand={data.brand} model={data.model} generation={data.generation} production_year={data.production_year} price={data.price}/>
             </Grid.Col>
         </Grid>
        </>

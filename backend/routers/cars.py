@@ -15,7 +15,13 @@ def get_cars():
     return list(collection.find({}, {"_id": 0}))
 
 @car_router.get("/caradcards")
-def get_car_ad_cards():
+def get_car_ad_cards(
+        brand: str | None = None,
+        model: str | None = None,
+        year: int | None = None,
+        fuelType: str | None = None,
+        bodyType: str | None = None
+):
     projection = {
         "_id": 1,
         "photos": 1,
@@ -28,7 +34,20 @@ def get_car_ad_cards():
         "mileage": 1,
         "transmission": 1
     }
-    car_ads = list(collection.find({}, projection))
+    filters = {}
+
+    if brand:
+        filters["brand"] = brand
+    if model:
+        filters["model"] = model
+    if year:
+        filters["production_year"] = year
+    if fuelType:
+        filters["fuel_type"] = fuelType
+    if bodyType:
+        filters["body_type"] = bodyType
+
+    car_ads = list(collection.find(filters, projection, collation={"locale": "pl", "strength": 2}))
 
     for car_ad in car_ads:
         car_ad["_id"] = str(car_ad["_id"])
