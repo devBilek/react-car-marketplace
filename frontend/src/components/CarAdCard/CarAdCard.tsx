@@ -40,7 +40,12 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
         >
             <Grid my='sm'>
                 <Grid.Col span={3}>
-                    <Image src={carData.photos?.[0]} alt="carPhoto" radius='sm' h={180} />
+                    {carData.photos?.[0] ?
+                        <Image src={carData.photos?.[0]} fallbackSrc='https://placehold.co/250x180?text=Photo error' alt="carPhoto" radius='sm' h={180} />
+                        :
+                        <Image src='https://placehold.co/250x180?text=No photo' alt="carPhoto" radius='sm' h={180} />
+                    }
+
                 </Grid.Col>
                 <Grid.Col span={7}>
                     <Title order={3} size='lg'>{carData.title}</Title>

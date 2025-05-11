@@ -46,34 +46,34 @@ class CarAd(BaseModel):
     price: int
     brand: str
     model: str
-    generation: Optional[str] = None  # np. "VW Golf VII"
+    generation: str
     production_year: int
     mileage: int  # w km
     condition: CarCondition
 
     # Technical details
     fuel_type: FuelType
-    engine_capacity: Optional[float] = None  # w cm3
-    engine_power: Optional[int] = None  # w KM
+    engine_capacity: int  # w cm3
+    engine_power: int  # w KM
     body_type: BodyType
     transmission: TransmissionType
     drive_type: Optional[DriveType] = None
     emission_standard: Optional[str] = None  # np. "Euro 6"
 
     # Additional features
-    color: Optional[str] = None
-    country_of_origin: Optional[str] = None
-    vin: Optional[str] = None
-    number_of_doors: Optional[int] = None
-    number_of_seats: Optional[int] = None
+    color: str
+    country_of_origin: str
+    vin: str
+    number_of_doors: str
+    number_of_seats: str
 
     # Equipment/options
     features: Optional[list[str]] = None  # np. ["ABS", "klimatyzacja", "czujnik parkowania"]
 
     # Seller information
     is_private_seller: bool
-    phone_number: Optional[str] = None
-    city: Optional[str] = None
+    phone_number: str
+    city: str
 
     # Description and media
     description: Optional[str] = None

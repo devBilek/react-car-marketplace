@@ -2,7 +2,6 @@ import {Divider, Grid, Text, Title} from "@mantine/core"
 import {useParams} from "react-router-dom";
 import {useApi} from "../../hooks/useApi";
 import {CarAdType} from "./types";
-import '@mantine/carousel/styles.css';
 import {CarGallery} from "../carGallery/CarGallery";
 import {CarSidebar} from "../CarSidebar/CarSidebar";
 import {KeySpecs} from "../KeySpecs/KeySpecs";
@@ -22,9 +21,9 @@ export const CarAd = () => {
         <Grid mt='xl' mx="lg">
             <Grid.Col span={9}>
                 <CarGallery photos={data.photos || []} />
-                <KeySpecs mileage={data.mileage} fuel_type={data.fuel_type} transmission={data.transmission} body_type={data.body_type} engine_power={data.engine_power || 0} production_year={data.production_year} />
+                <KeySpecs mileage={data.mileage} fuel_type={data.fuel_type} transmission={data.transmission} body_type={data.body_type} engine_power={data.engine_power} production_year={data.production_year} />
                 <DescriptionSection description={data.description || ""} />
-                
+
                 <Divider h='md' mt={50}/>
                 <Title order={3} mb='xs'>Details</Title>
 

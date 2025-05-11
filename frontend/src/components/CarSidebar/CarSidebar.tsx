@@ -4,7 +4,7 @@ interface CarSidebarProps {
     title: string;
     brand: string;
     model: string;
-    generation?: string | null;
+    generation: string;
     production_year: number;
     price: number;
 }

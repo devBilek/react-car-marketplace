@@ -10,16 +10,19 @@ export const CarGallery = ({photos}: CarGalleryProps) => {
     const {colorScheme} = useMantineColorScheme();
 
     return (
-        <Paper bg={colorScheme === 'dark' ? 'dark.5' : 'dark.0'} radius='md'>
+        <Paper bg={colorScheme === 'dark' ? 'dark.5' : 'dark.0'} radius='md' mih={450} mah={500}>
             <Carousel height='100%' withIndicators>
-                <Carousel.Slide><Image
-                    src={photos?.[0]}
-                    alt="carPhoto"
-                    w="80%"
-                    mx="auto"
-                /></Carousel.Slide>
-                <Carousel.Slide>2</Carousel.Slide>
-                <Carousel.Slide>3</Carousel.Slide>
+                {photos.length >= 1 ?
+                    photos.map((photo, index) => (
+                        <Carousel.Slide key={index} h='100%'>
+                            <Image src={photo} fallbackSrc='https://placehold.co/200x100?text=Photo error' alt='carPhoto' mx='auto' w='80%' mih={500}/>
+                        </Carousel.Slide>
+                    ))
+                    :
+                    <Carousel.Slide h='100%'>
+                        <Image src='https://placehold.co/200x100?text=No photo' alt='carPhoto' mx='auto' w='80%' mih={500}/>
+                    </Carousel.Slide>
+                }
             </Carousel>
         </Paper>
     )

@@ -43,34 +43,34 @@ export interface CarAdType {
     price: number;
     brand: string;
     model: string;
-    generation?: string | null;  // np. "VW Golf VII"
+    generation: string;  // np. "VW Golf VII"
     production_year: number;
     mileage: number;  // w km
     condition: CarCondition;
 
     // Technical details
     fuel_type: FuelType;
-    engine_capacity?: number | null;  // w cm3
-    engine_power?: number | null;  // w KM
+    engine_capacity: number;  // w cm3
+    engine_power: number;  // w KM
     body_type: BodyType;
     transmission: TransmissionType;
     drive_type?: DriveType | null;
     emission_standard?: string | null;  // np. "Euro 6"
 
     // Additional features
-    color?: string | null;
-    country_of_origin?: string | null;
-    vin?: string | null;
-    number_of_doors?: number | null;
-    number_of_seats?: number | null;
+    color: string;
+    country_of_origin: string;
+    vin: string;
+    number_of_doors: number;
+    number_of_seats: number;
 
     // Equipment/options
     features?: string[] | null;  // np. ["ABS", "klimatyzacja", "czujnik parkowania"]
 
     // Seller information
     is_private_seller: boolean;
-    phone_number?: string | null;
-    city?: string | null;
+    phone_number: string;
+    city: string;
 
     // Description and media
     description?: string | null;
