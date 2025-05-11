@@ -1,5 +1,5 @@
 from bson import ObjectId
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from database import collection
 from models.carAd import CarAd
 
@@ -20,7 +20,9 @@ def get_car_ad_cards(
         model: str | None = None,
         year: int | None = None,
         fuelType: str | None = None,
-        bodyType: str | None = None
+        bodyType: str | None = None,
+        page: int = Query(1, gt=0),
+        limit: int = Query(10, gt=0, le=100)
 ):
     projection = {
         "_id": 1,
@@ -47,12 +49,21 @@ def get_car_ad_cards(
     if bodyType:
         filters["body_type"] = bodyType
 
-    car_ads = list(collection.find(filters, projection, collation={"locale": "pl", "strength": 2}))
+    skip = (page - 1) * limit
+
+    total = collection.count_documents(filters)
+    car_ads = list(collection.find(filters, projection, collation={"locale": "pl", "strength": 2}).skip(skip).limit(limit))
 
     for car_ad in car_ads:
         car_ad["_id"] = str(car_ad["_id"])
 
-    return car_ads
+    return {
+        "items": car_ads,
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "pages": (total + limit - 1) // limit
+    }
 
 @car_router.get("/carAd/{car_ad_id}")
 def get_car_ad_by_id(car_ad_id: str):

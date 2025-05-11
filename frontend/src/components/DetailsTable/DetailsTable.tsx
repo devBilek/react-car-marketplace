@@ -22,10 +22,10 @@ export const DetailsTable = ({title, data, emptyValue = ''}: DetailsTableProps) 
             <Table.Tbody>
                 {data.map((item, index) => (
                     <Table.Tr key={index}>
-                        <Table.Td>
+                        <Table.Td w='50%'>
                             <Text size="md">{item.label}</Text>
                         </Table.Td>
-                        <Table.Td>
+                        <Table.Td w='50%'>
                             <Text size="md">
                                 {item.value !== null && item.value !== undefined
                                     ? item.value

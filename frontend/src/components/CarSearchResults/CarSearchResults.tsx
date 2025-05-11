@@ -1,7 +1,9 @@
-import {Paper, Text} from "@mantine/core"
+import {Paper, Text, Pagination, Center} from "@mantine/core"
+import {useWindowScroll} from "@mantine/hooks";
 import {useApi} from "../../hooks/useApi";
 import {CarAdCard} from "../CarAdCard/CarAdCard";
 import {useSearchParams} from "react-router-dom";
+import {useState, useEffect} from "react";
 
 interface Car {
     _id: string;
@@ -19,26 +21,55 @@ interface Car {
     transmission: 'manual' | 'automatic' | 'semi-automatic';
 }
 
+interface ApiResponse {
+    items: Car[];
+    total: number;
+    page: number;
+    limit: number;
+    pages: number;
+}
+
 export const CarSearchResults = () => {
     const [searchParams] = useSearchParams();
+    const [activePage, setActivePage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [_, scrollTo] = useWindowScroll()
 
-    const params = []
+
     const brand = searchParams.get('brand') || '';
     const model = searchParams.get('model') || '';
     const year = searchParams.get('year') || '';
     const fuelType = searchParams.get('fuelType') || '';
     const bodyType = searchParams.get('bodyType') || '';
 
-    if (brand) {params.push(`brand=${brand}`);}
-    if (model) {params.push(`model=${model}`);}
-    if (year) {params.push(`year=${year}`);}
-    if (fuelType) {params.push(`fuelType=${fuelType}`);}
-    if (bodyType) {params.push(`bodyType=${bodyType}`);}
-    params.join('&');
+    const params = new URLSearchParams();
+    if (brand) {params.append('brand', brand);}
+    if (model) {params.append('model', model);}
+    if (year) {params.append('year', year);}
+    if (fuelType) {params.append('fuelType', fuelType);}
+    if (bodyType) {params.append('bodyType', bodyType);}
+    params.append('page', activePage.toString());
 
-    const {data} = useApi<Car[]>(`http://127.0.0.1:8000/api/caradcards?${params}`);
+    const {data} = useApi<ApiResponse>(`http://127.0.0.1:8000/api/caradcards?${params.toString()}`);
 
-    if (!data || data.length === 0) {
+    useEffect(() => {
+        if(data?.pages) {
+            setTotalPages(data?.pages);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        setActivePage(1);
+    }, [brand, model, year, fuelType, bodyType]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            scrollTo({y: 0})
+        }, 10)
+    },[activePage]);
+
+
+    if (!data || data.items.length === 0) {
         return <Text>No cars found</Text>;
     }
 
@@ -49,9 +80,18 @@ export const CarSearchResults = () => {
                 mt='xl'
                 p='md'
             >
-                {data.map((car: any, index: number) => (
+                {data.items.map((car: Car, index: number) => (
                     <CarAdCard carData={car} key={index} />
                 ))}
+                <Center my='lg'>
+                    <Pagination
+                        value={activePage}
+                        total={totalPages}
+                        onChange={setActivePage}
+                        siblings={1}
+                        boundaries={1}
+                    />
+                </Center>
             </Paper>
         </>
     )
