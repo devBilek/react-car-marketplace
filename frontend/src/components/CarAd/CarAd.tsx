@@ -10,14 +10,19 @@ import {DetailsTable} from "../DetailsTable/DetailsTable";
 
 export const CarAd = () => {
     const params = useParams();
-    const {data} = useApi<CarAdType>(`http://127.0.0.1:8000/api/carAd/${params.id}`);
+    const {data, loading, error} = useApi<CarAdType>(`http://127.0.0.1:8000/api/carAd/${params.id}`);
 
+
+    if (error) {
+        return <Text>{error.message}</Text>
+    }
+    if (loading) {
+        return null
+    }
     if (!data) {
         return <Text>not found</Text>
     }
-
     return (
-       <>
         <Grid mt='xl' mx="lg">
             <Grid.Col span={9}>
                 <CarGallery photos={data.photos || []} />
@@ -89,6 +94,5 @@ export const CarAd = () => {
                 <CarSidebar title={data.title} brand={data.brand} model={data.model} generation={data.generation} production_year={data.production_year} price={data.price}/>
             </Grid.Col>
         </Grid>
-       </>
     )
 }

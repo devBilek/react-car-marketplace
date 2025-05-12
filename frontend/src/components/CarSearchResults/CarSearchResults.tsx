@@ -2,7 +2,7 @@ import {Paper, Text, Pagination, Center} from "@mantine/core"
 import {useWindowScroll} from "@mantine/hooks";
 import {useApi} from "../../hooks/useApi";
 import {CarAdCard} from "../CarAdCard/CarAdCard";
-import {useSearchParams} from "react-router-dom";
+import {useSearchParams, useLocation} from "react-router-dom";
 import {useState, useEffect} from "react";
 
 interface Car {
@@ -34,6 +34,7 @@ export const CarSearchResults = () => {
     const [activePage, setActivePage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [_, scrollTo] = useWindowScroll()
+    const {pathname} = useLocation();
 
 
     const brand = searchParams.get('brand') || '';
@@ -50,49 +51,51 @@ export const CarSearchResults = () => {
     if (bodyType) {params.append('bodyType', bodyType);}
     params.append('page', activePage.toString());
 
-    const {data} = useApi<ApiResponse>(`http://127.0.0.1:8000/api/caradcards?${params.toString()}`);
+    const {data, loading, error} = useApi<ApiResponse>(`http://127.0.0.1:8000/api/caradcards?${params.toString()}`);
+
+    useEffect(() => {
+        window.history.scrollRestoration = 'manual'
+    }, [pathname]);
 
     useEffect(() => {
         if(data?.pages) {
             setTotalPages(data?.pages);
         }
+        if (!loading) {
+            scrollTo({y: 0})
+        }
     }, [data]);
-
     useEffect(() => {
         setActivePage(1);
     }, [brand, model, year, fuelType, bodyType]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            scrollTo({y: 0})
-        }, 10)
-    },[activePage]);
-
-
+    if (error) {
+        return <Text>Error: {error.message}</Text>;
+    }
+    if (loading) {
+        return <Text>Loading...</Text>;
+    }
     if (!data || data.items.length === 0) {
         return <Text>No cars found</Text>;
     }
-
     return (
-        <>
-            <Paper
-                shadow="md"
-                mt='xl'
-                p='md'
-            >
-                {data.items.map((car: Car, index: number) => (
-                    <CarAdCard carData={car} key={index} />
-                ))}
-                <Center my='lg'>
-                    <Pagination
-                        value={activePage}
-                        total={totalPages}
-                        onChange={setActivePage}
-                        siblings={1}
-                        boundaries={1}
-                    />
-                </Center>
-            </Paper>
-        </>
+        <Paper
+            shadow="md"
+            mt='xl'
+            p='md'
+        >
+            {data.items.map((car: Car, index: number) => (
+                <CarAdCard carData={car} key={index} />
+            ))}
+            <Center my='lg'>
+                <Pagination
+                    value={activePage}
+                    total={totalPages}
+                    onChange={setActivePage}
+                    siblings={1}
+                    boundaries={1}
+                />
+            </Center>
+        </Paper>
     )
 }
