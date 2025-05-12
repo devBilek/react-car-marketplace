@@ -25,6 +25,7 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        sessionStorage.setItem("scrollPosition", window.scrollY.toString());
         navigate(`/car-ad/${carData._id}`)
     }
 

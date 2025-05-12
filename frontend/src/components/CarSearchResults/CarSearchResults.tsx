@@ -1,9 +1,8 @@
 import {Paper, Text, Pagination, Center} from "@mantine/core"
-import {useWindowScroll} from "@mantine/hooks";
 import {useApi} from "../../hooks/useApi";
 import {CarAdCard} from "../CarAdCard/CarAdCard";
-import {useSearchParams, useLocation} from "react-router-dom";
-import {useState, useEffect} from "react";
+import {useSearchParams} from "react-router-dom";
+import {useState, useEffect , useLayoutEffect} from "react";
 
 interface Car {
     _id: string;
@@ -33,9 +32,6 @@ export const CarSearchResults = () => {
     const [searchParams] = useSearchParams();
     const [activePage, setActivePage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [_, scrollTo] = useWindowScroll()
-    const {pathname} = useLocation();
-
 
     const brand = searchParams.get('brand') || '';
     const model = searchParams.get('model') || '';
@@ -53,21 +49,24 @@ export const CarSearchResults = () => {
 
     const {data, loading, error} = useApi<ApiResponse>(`http://127.0.0.1:8000/api/caradcards?${params.toString()}`);
 
-    useEffect(() => {
-        window.history.scrollRestoration = 'manual'
-    }, [pathname]);
+    useLayoutEffect(() => {
+        if (!loading) {
+            window.scrollTo(0, parseInt(sessionStorage.getItem("scrollPosition") || "0", 10));
+        }
 
+    }, [loading]);
     useEffect(() => {
         if(data?.pages) {
             setTotalPages(data?.pages);
         }
-        if (!loading) {
-            scrollTo({y: 0})
-        }
     }, [data]);
     useEffect(() => {
         setActivePage(1);
+        setTotalPages(1);
     }, [brand, model, year, fuelType, bodyType]);
+    useEffect(()=> {
+        window.scrollTo(0, 0);
+    }, [activePage]);
 
     if (error) {
         return <Text>Error: {error.message}</Text>;
