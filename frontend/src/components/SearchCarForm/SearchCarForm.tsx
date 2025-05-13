@@ -16,8 +16,17 @@ export const SearchCarForm = () => {
 
     const navigate = useNavigate();
 
+    const handleReset = () => {
+        form.reset()
+        navigate(`/search-results?page=1`);
+    }
     const handleSubmit = (values: typeof form.values) => {
-        navigate(`/search-results?brand=${values.brand}&model=${values.model}&year=${values.year}&fuelType=${values.fuelType}&bodyType=${values.bodyType}&page=1`);
+        const filteredValues = Object.fromEntries(
+            Object.entries(values).filter(([_, value]) => value !== null && value !== '')
+        );
+        const searchParams = new URLSearchParams(filteredValues);
+        searchParams.append("page", '1');
+        navigate(`/search-results?${searchParams}`);
     }
 
     return (
@@ -32,7 +41,7 @@ export const SearchCarForm = () => {
                 >
                     Find your car
                 </Title>
-                <form onSubmit={form.onSubmit(handleSubmit)}>
+                <form onSubmit={form.onSubmit(handleSubmit)} onReset={handleReset}>
                     <Grid>
                         <Grid.Col span={6}>
                             <Autocomplete
@@ -76,7 +85,10 @@ export const SearchCarForm = () => {
                             />
                         </Grid.Col>
                     </Grid>
-                    <Flex justify='flex-end' my='sm'>
+                    <Flex justify='flex-end' my='sm' gap='xs'>
+                        <Button type="reset">
+                            Reset
+                        </Button>
                         <Button type='submit'>
                             Find
                         </Button>

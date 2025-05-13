@@ -49,13 +49,13 @@ export const CarSearchResults = () => {
         }
     }, [searchParams]);
     useEffect(() => {
+        setTotalPages(1)
         if (data?.pages) {
             setTotalPages(data.pages);
         }
     }, [data]);
     useEffect(() => {
         sessionStorage.setItem("currentPage", activePage.toString());
-        setTotalPages(1)
     }, [activePage]);
 
     if (error) {
