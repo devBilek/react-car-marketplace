@@ -17,7 +17,7 @@ export const SearchCarForm = () => {
     const navigate = useNavigate();
 
     const handleSubmit = (values: typeof form.values) => {
-        navigate(`/search-results?brand=${values.brand}&model=${values.model}&year=${values.year}&fuelType=${values.fuelType}&bodyType=${values.bodyType}`)
+        navigate(`/search-results?brand=${values.brand}&model=${values.model}&year=${values.year}&fuelType=${values.fuelType}&bodyType=${values.bodyType}&page=1`);
     }
 
     return (
