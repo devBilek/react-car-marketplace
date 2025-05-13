@@ -20,6 +20,7 @@ export const SearchCarForm = () => {
         form.reset()
         navigate(`/search-results?page=1`);
         window.scrollTo(0, 0)
+        sessionStorage.removeItem("scrollPosition");
     }
     const handleSubmit = (values: typeof form.values) => {
         const filteredValues = Object.fromEntries(
@@ -29,6 +30,7 @@ export const SearchCarForm = () => {
         searchParams.append("page", '1');
         navigate(`/search-results?${searchParams}`);
         window.scrollTo(0, 0)
+        sessionStorage.removeItem("scrollPosition");
     }
 
     return (
