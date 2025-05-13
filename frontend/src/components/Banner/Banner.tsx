@@ -1,7 +1,13 @@
 import {Container, Title, Flex, Affix, Space} from "@mantine/core"
 import {ColorSchemeToggle} from "../ColorSchemeToggle/ColorSchemeToggle";
+import {useNavigate} from "react-router-dom";
 
 export const Banner = () => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/");
+    }
     return (
         <>
             <Affix position={{top: 0, left: 0, right: 0}}>
@@ -16,7 +22,15 @@ export const Banner = () => {
                     }}
                 >
                     <Flex w='100%' h='100%' align='center' justify='space-between'>
-                        <Title order={1}>CarMarketPlace</Title>
+                        <Title
+                            order={1}
+                            onClick={handleClick}
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                        >
+                            CarMarketPlace
+                        </Title>
                         <ColorSchemeToggle />
                     </Flex>
                 </Container>
