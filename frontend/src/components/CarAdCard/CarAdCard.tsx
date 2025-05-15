@@ -4,22 +4,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { MdLocalGasStation } from "react-icons/md";
 import { BsArrowDownUp } from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
-
-interface Car {
-    _id: string;
-
-    photos: Array<string>;
-
-    title: string;
-    price: number;
-    brand: string;
-    model: string;
-    production_year: number;
-    mileage: number;
-
-    fuel_type: 'petrol' | 'diesel' | 'lpg' | 'electric' | 'hybrid';
-    transmission: 'manual' | 'automatic' | 'semi-automatic';
-}
+import {Car} from '../../types/carAdCardTypes'
 
 export const CarAdCard = ({ carData }: { carData: Car }) => {
     const navigate = useNavigate();
@@ -46,7 +31,6 @@ export const CarAdCard = ({ carData }: { carData: Car }) => {
                         :
                         <Image src='https://placehold.co/250x180?text=No photo' alt="carPhoto" radius='sm' h={180} />
                     }
-
                 </Grid.Col>
                 <Grid.Col span={7}>
                     <Title order={3} size='lg'>{carData.title}</Title>

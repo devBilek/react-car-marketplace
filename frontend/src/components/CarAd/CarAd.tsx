@@ -39,7 +39,7 @@ export const CarAd = () => {
                         { label: "Brand", value: data.brand },
                         { label: "Model", value: data.model },
                         { label: "Generation", value: data.generation },
-                        { label: "Price", value: `${data.price} PLN` },
+                        { label: "Price", value: `${data.price} $` },
                         { label: "Production Year", value: data.production_year },
                         { label: "Mileage", value: `${data.mileage} km` },
                         { label: "Condition", value: data.condition },
