@@ -7,6 +7,7 @@ export const Banner = () => {
 
     const handleClick = () => {
         navigate("/");
+        window.scrollTo(0, 0);
     }
     return (
         <>
